@@ -17,23 +17,14 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    // console.log('Компонент App змонтувався');
     const contactsFromLS = localStorage.getItem('contacts');
     const contactsFromLSParced = JSON.parse(contactsFromLS);
-    // console.log('contactsFromLS:', contactsFromLS);
-    // console.log('contactsFromLSParced:', contactsFromLSParced);
-    // Перевірка, чи є щось у LS. Якщо немає, то нічого в state не додаємо.
     contactsFromLSParced && this.setState({ contacts: contactsFromLSParced });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('Компонент App оновився');
-
     if (this.state.contacts !== prevState.contacts) {
-      // console.log('prevState.contacts', prevState.contacts);
-      // console.log('this.state.contacts:', this.state.contacts);
-      // console.log('оновився масив contact');
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
@@ -80,8 +71,6 @@ export class App extends Component {
   }
   
   render() {
-    // console.log('Компонент App зарендерився');
-
     const { filter } = this.state;
     const filtered = this.getFilteredContacts()
     return (
@@ -100,26 +89,3 @@ export class App extends Component {
     );
   }
 }
-
-// & Фаза монтування
-// ~ componentDidMount() {} - компонент БУВ змонтований.
-// Викликається один раз за життєвий цикл компоненту.
-// Викликати його вдруге можна лише коли компонент був розмонтований
-
-// & Фаза оновлення (коли змінений стан компоненту (this.state), або приходять нові props)
-// ~ componentDidUpdate(prevProps, prevState, snapshot) {} - компонент БУВ оновився.
-// Викликається після кожного оновлення (першого render() і всіх наступних render())
-// Може викликатися скільки завгодно разів.
-// Не можна в ньому (і у render()) викликати this.setState() без перевірки - буде зациклювання.
-// prevProps, prevState - відповідні значення до моменту оновлення
-// snapshot - те, що приходить з методу getSnapshotBeforeUpdate
-// ~ static getDerivedStateFromProps(nextProps, prevState) {} - Дуже  рідко використовується
-// ~ shouldComponentUpdate(nextProps, nextState) {} - чи має компонент оновлюватись?
-// Використовується для оптимізації, щоб не перемальовувати рендер.
-
-// ~ getSnapshotBeforeUpdate(prevProps, prevState) {} - Етап Pre-commit. Дуже  рідко використовується
-// Читає DOM перед самим оновленням (наприклад, щоби прокрутити скрол на своє місце після додавання коментаря)
-
-// & Фаза розмонтування
-// ~ componentWillUnmount - компонент БУДЕ розмонтований
-// Викликається коли компонент видаляється. Використовується для зняття слухачів подій і лічильників (.removeEventListener('type', listener), clearTimeout(timerId), clearInterval(timerId))
